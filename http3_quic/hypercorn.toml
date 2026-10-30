@@ -1,0 +1,5 @@
+bind="0.0.0.0:4433"
+quic_bind="0.0.0.0:4433"
+keyfile="key.pem"
+certfile="cert.pem"
+alt_svc_headers=['h3=":4433"; ma=3600']
