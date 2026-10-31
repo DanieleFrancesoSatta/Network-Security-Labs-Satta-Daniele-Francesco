@@ -1,18 +1,15 @@
 
 import threading
-import sys
-from pydoc import resolve
-from selectors import SelectSelector
-from typing import reveal_type
-from xmlrpc import client, server
-import csv
+
 import socket
+
 IP_ADDRESS = "0.0.0.0"
 
 PORT = 9001
+
 keys_values_dict={}
 
-def handle_client(connection, client_address,lock):
+def handle_client(connection,lock):
     buffer = ""
     while True:
 
@@ -25,9 +22,9 @@ def handle_client(connection, client_address,lock):
         buffer += msg
 
         while '\n' in buffer:
-            riga, buffer = buffer.split("\n", 1)
-            riga = riga.rstrip("\r")
-            responce = process_command(str(riga),lock)
+            line, buffer = buffer.split("\n", 1)
+            line = line.rstrip("\r")
+            responce = process_command(str(line),lock)
 
             connection.send(responce.encode() + b"\n")
 
@@ -42,7 +39,6 @@ def process_command(command,lock):
             try:
 
                 lock.acquire(blocking=True)
-
 
                 key_value = command.split(" ", 1)[1]
                 key = key_value.split(" ", 1)[0]
@@ -111,7 +107,7 @@ def start_server():
             server = connect_server()
             while True:
                 connection, client_address = server.accept()
-                thread=threading.Thread(target=handle_client, args=(connection, client_address,lock))
+                thread=threading.Thread(target=handle_client, args=(connection,lock))
                 threads.append(thread)
                 print(f"Connection from: {client_address}")
                 thread.start()

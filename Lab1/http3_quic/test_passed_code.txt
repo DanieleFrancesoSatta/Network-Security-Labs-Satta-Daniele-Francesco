@@ -1,0 +1,3 @@
+netsec{UDP_bu7_w1th_f33l1ng5_c92f9306}
+
+to run the code: hypercorn --config hypercorn.toml app:app

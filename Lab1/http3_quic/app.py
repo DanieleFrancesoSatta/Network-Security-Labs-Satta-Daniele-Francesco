@@ -35,9 +35,7 @@ async def app(scope, receive, send):
         await send({"type": "http.response.body", "body": body})
         return
 
-    """3. Concurrent streams
-POST /hash → 200 with the SHA-256 of the received body, in hexadecimal
-The checker sends several requests in parallel on the same QUIC connection, with bodies of up to 256 KB."""
+
 
     if method == "POST" and path=="/hash":
         more_body=True
